@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <form action="/send" method="post" id="send">
+        <p><input name="message"></p>
+        <p><input type="submit" value="SEND"></p>
+    </form>
+    <form action="/" method="post" id="get"><p><input type="submit" value="GET"></p></form>
+    <div id="message"></div>
+    <script
+            src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous"></script>
+    <script>
+    $(document).ready(function () {
+        $('#get').submit(function (event) {
+            event.preventDefault();
+            $.ajax({
+                method: 'POST',
+                url: '/',
+                headers: [
+                    'Content-Type: application/json'
+                ],
+                cache: false,
+            }).done(function (response) {
+                $('#message').append(
+                    JSON.stringify(response)
+                );
+            });
+        });
+        $('#send').submit(function (event) {
+            event.preventDefault();
+            $.ajax({
+                method: 'POST',
+                url: '/send',
+                headers: [
+                    'Content-Type: application/json'
+                ],
+                cache: false,
+                data: $('#send').serialize(),
+            });
+        });
+    });
+    </script>
+</body>
+</html>
